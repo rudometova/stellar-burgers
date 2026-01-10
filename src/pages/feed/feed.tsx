@@ -1,34 +1,38 @@
-import { FC, useEffect } from 'react';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
+import { FC, useEffect } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
 import { fetchFeeds } from '../../services/slices/feedSlice';
 import {
   getFeedOrders,
-  getFeedLoading,
   getFeedTotal,
-  getFeedTotalToday
+  getFeedTotalToday,
+  getFeedLoading
 } from '../../services/selectors';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
   const orders = useSelector(getFeedOrders);
-  const isLoading = useSelector(getFeedLoading);
   const total = useSelector(getFeedTotal);
   const totalToday = useSelector(getFeedTotalToday);
+  const isLoading = useSelector(getFeedLoading);
 
   useEffect(() => {
     dispatch(fetchFeeds());
   }, [dispatch]);
 
-  if (isLoading || !orders.length) {
+  const handleGetFeeds = () => {
+    dispatch(fetchFeeds());
+  };
+
+  if (isLoading && orders.length === 0) {
     return <Preloader />;
   }
 
   return (
     <FeedUI
       orders={orders}
-      handleGetFeeds={() => dispatch(fetchFeeds())}
+      handleGetFeeds={handleGetFeeds}
       total={total}
       totalToday={totalToday}
     />

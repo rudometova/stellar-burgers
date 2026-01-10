@@ -33,12 +33,12 @@ export const Register: FC = () => {
     <RegisterUI
       errorText={error || ''}
       email={email}
-      userName={userName}
-      password={password}
       setEmail={setEmail}
-      setPassword={setPassword}
-      setUserName={setUserName}
       handleSubmit={handleSubmit}
+      password={password}
+      setPassword={setPassword}
+      userName={userName}
+      setUserName={setUserName}
     />
   );
 };

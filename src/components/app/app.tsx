@@ -20,15 +20,21 @@ import {
 import '../../index.css';
 import styles from './app.module.css';
 import { useEffect } from 'react';
+import { useDispatch } from '../../services/store';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+import { checkUserAuth } from '../../services/slices/userSlice';
 
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Здесь позже добавим загрузку ингредиентов
-  }, []);
+    // Загружаем ингредиенты и проверяем авторизацию
+    dispatch(fetchIngredients());
+    dispatch(checkUserAuth());
+  }, [dispatch]);
 
   const handleModalClose = () => {
     navigate(-1);

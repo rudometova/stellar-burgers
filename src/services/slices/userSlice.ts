@@ -5,7 +5,9 @@ import {
   registerUserApi,
   logoutApi,
   getUserApi,
-  updateUserApi
+  updateUserApi,
+  forgotPasswordApi,
+  resetPasswordApi
 } from '@api';
 import { setCookie, getCookie, deleteCookie } from '../../utils/cookie';
 
@@ -47,7 +49,11 @@ export const loginUser = createAsyncThunk(
   'user/login',
   async (data: { email: string; password: string }) => {
     const response = await loginUserApi(data);
-    setCookie('accessToken', response.accessToken.split('Bearer ')[1]);
+    // Сохраняем БЕЗ 'Bearer ' (так как мы сами добавляем Bearer при использовании)
+    const accessToken = response.accessToken.startsWith('Bearer ')
+      ? response.accessToken.split('Bearer ')[1]
+      : response.accessToken;
+    setCookie('accessToken', accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
     return response.user;
   }
@@ -58,17 +64,26 @@ export const registerUser = createAsyncThunk(
   'user/register',
   async (data: { email: string; password: string; name: string }) => {
     const response = await registerUserApi(data);
-    setCookie('accessToken', response.accessToken.split('Bearer ')[1]);
+    // Сохраняем БЕЗ 'Bearer ' (так как мы сами добавляем Bearer при использовании)
+    const accessToken = response.accessToken.startsWith('Bearer ')
+      ? response.accessToken.split('Bearer ')[1]
+      : response.accessToken;
+    setCookie('accessToken', accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
     return response.user;
   }
 );
-
 // Выход
 export const logoutUser = createAsyncThunk('user/logout', async () => {
-  await logoutApi();
-  deleteCookie('accessToken');
-  localStorage.removeItem('refreshToken');
+  try {
+    await logoutApi();
+  } catch (error) {
+    console.error('Logout API error:', error);
+    // Даже если API ошибся, все равно очищаем локальные данные
+  } finally {
+    deleteCookie('accessToken');
+    localStorage.removeItem('refreshToken');
+  }
   return null;
 });
 
@@ -78,6 +93,24 @@ export const updateUser = createAsyncThunk(
   async (data: { email?: string; name?: string; password?: string }) => {
     const response = await updateUserApi(data);
     return response.user;
+  }
+);
+
+// Восстановление пароля
+export const forgotPassword = createAsyncThunk(
+  'user/forgotPassword',
+  async (data: { email: string }) => {
+    const response = await forgotPasswordApi(data);
+    return response;
+  }
+);
+
+// Сброс пароля
+export const resetPassword = createAsyncThunk(
+  'user/resetPassword',
+  async (data: { password: string; token: string }) => {
+    const response = await resetPasswordApi(data);
+    return response;
   }
 );
 
@@ -135,7 +168,19 @@ const userSlice = createSlice({
       })
 
       // logoutUser
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(logoutUser.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthChecked = true;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || 'Ошибка выхода';
+        // Все равно очищаем пользователя даже при ошибке
         state.user = null;
       })
 
@@ -151,6 +196,32 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || 'Ошибка обновления данных';
+      })
+
+      // forgotPassword
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || 'Ошибка восстановления пароля';
+      })
+
+      // resetPassword
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || 'Ошибка сброса пароля';
       });
   }
 });
