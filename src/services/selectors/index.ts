@@ -79,3 +79,44 @@ export const getTotalPrice = createSelector(
     return bunPrice + ingredientsPrice;
   }
 );
+
+// Селекторы для заказов
+const selectOrderState = (state: RootState) => state.order;
+
+export const getOrder = createSelector(
+  [selectOrderState],
+  (orderState) => orderState.order
+);
+
+export const getOrderRequest = createSelector(
+  [selectOrderState],
+  (orderState) => orderState.orderRequest
+);
+
+export const getOrderError = createSelector(
+  [selectOrderState],
+  (orderState) => orderState.orderError
+);
+
+// Селекторы для пользователя
+const selectUserState = (state: RootState) => state.user;
+
+export const getUser = createSelector(
+  [selectUserState],
+  (userState) => userState.user
+);
+
+export const getIsAuthChecked = createSelector(
+  [selectUserState],
+  (userState) => userState.isAuthChecked
+);
+
+export const getUserLoading = createSelector(
+  [selectUserState],
+  (userState) => userState.isLoading
+);
+
+export const getUserError = createSelector(
+  [selectUserState],
+  (userState) => userState.error
+);
