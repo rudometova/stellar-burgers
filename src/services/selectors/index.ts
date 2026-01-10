@@ -120,3 +120,49 @@ export const getUserError = createSelector(
   [selectUserState],
   (userState) => userState.error
 );
+
+// Селекторы для ленты заказов
+const selectFeedState = (state: RootState) => state.feed;
+
+export const getFeedOrders = createSelector(
+  [selectFeedState],
+  (feedState) => feedState.orders
+);
+
+export const getFeedTotal = createSelector(
+  [selectFeedState],
+  (feedState) => feedState.total
+);
+
+export const getFeedTotalToday = createSelector(
+  [selectFeedState],
+  (feedState) => feedState.totalToday
+);
+
+export const getFeedLoading = createSelector(
+  [selectFeedState],
+  (feedState) => feedState.isLoading
+);
+
+export const getFeedError = createSelector(
+  [selectFeedState],
+  (feedState) => feedState.error
+);
+
+// Селекторы для истории заказов
+const selectProfileOrdersState = (state: RootState) => state.profileOrders;
+
+export const getProfileOrders = createSelector(
+  [selectProfileOrdersState],
+  (profileOrdersState) => profileOrdersState.orders
+);
+
+export const getProfileOrdersLoading = createSelector(
+  [selectProfileOrdersState],
+  (profileOrdersState) => profileOrdersState.isLoading
+);
+
+export const getProfileOrdersError = createSelector(
+  [selectProfileOrdersState],
+  (profileOrdersState) => profileOrdersState.error
+);

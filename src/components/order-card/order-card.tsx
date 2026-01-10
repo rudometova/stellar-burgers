@@ -1,17 +1,19 @@
 import { FC, memo, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
-
+import { useLocation, useParams } from 'react-router-dom';
+import { useSelector } from '../../services/store';
 import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
+import { getIngredients } from '../../services/selectors';
 
 const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
+  const { pathname } = location;
 
-  /** TODO: взять переменную из стора */
-  const ingredients: TIngredient[] = [];
+  // Получаем все ингредиенты из хранилища
+  const ingredients = useSelector(getIngredients);
 
   const orderInfo = useMemo(() => {
     if (!ingredients.length) return null;
@@ -35,15 +37,25 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
         : 0;
 
     const date = new Date(order.createdAt);
+
+    // Определяем путь в зависимости от текущего маршрута
+    let linkTo = '';
+    if (pathname.startsWith('/feed')) {
+      linkTo = `/feed/${order.number}`;
+    } else if (pathname.startsWith('/profile/orders')) {
+      linkTo = `/profile/orders/${order.number}`;
+    }
+
     return {
       ...order,
       ingredientsInfo,
       ingredientsToShow,
       remains,
       total,
-      date
+      date,
+      linkTo
     };
-  }, [order, ingredients]);
+  }, [order, ingredients, pathname]);
 
   if (!orderInfo) return null;
 

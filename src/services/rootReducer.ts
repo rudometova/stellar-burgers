@@ -3,10 +3,14 @@ import ingredientsReducer from './slices/ingredientsSlice';
 import constructorReducer from './slices/constructorSlice';
 import orderReducer from './slices/orderSlice';
 import userReducer from './slices/userSlice';
+import feedReducer from './slices/feedSlice';
+import profileOrdersReducer from './slices/profileOrdersSlice';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   constructor: constructorReducer,
   order: orderReducer,
-  user: userReducer
+  user: userReducer,
+  feed: feedReducer,
+  profileOrders: profileOrdersReducer
 });
