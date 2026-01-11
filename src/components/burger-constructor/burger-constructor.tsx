@@ -38,11 +38,11 @@ export const BurgerConstructor: FC = () => {
       return;
     }
 
-    // Собираем массив ID ингредиентов: [булка, ...начинки, булка]
+    // Собираем массив ID ингредиентов
     const ingredientIds: string[] = [];
 
     if (bun) {
-      ingredientIds.push(bun._id); // Верхняя булка
+      ingredientIds.push(bun._id);
     }
 
     ingredients.forEach((ingredient) => {
@@ -50,7 +50,7 @@ export const BurgerConstructor: FC = () => {
     });
 
     if (bun) {
-      ingredientIds.push(bun._id); // Нижняя булка
+      ingredientIds.push(bun._id);
     }
 
     dispatch(createOrder(ingredientIds));
@@ -59,7 +59,7 @@ export const BurgerConstructor: FC = () => {
   const closeOrderModal = () => {
     dispatch(clearOrder());
     if (order) {
-      dispatch(clearConstructor()); // Очищаем конструктор после успешного заказа
+      dispatch(clearConstructor());
     }
   };
 

@@ -28,6 +28,5 @@
       "@selectors": ["src/services/selectors"]
     }
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "src/stories/**/*"]  // Добавьте эту строку
+  "include": ["src"]
 }

@@ -55,11 +55,11 @@ module.exports = {
       template: './public/index.html'
     }),
     new Dotenv({
-  path: path.resolve(__dirname, '.env.local'), // явный путь
-  systemvars: true, // загружать системные переменные
-  safe: true, // не падать если .env не найден
-  defaults: true // использовать .env.defaults если есть
-})
+      path: path.resolve(__dirname, '.env.local'), 
+      systemvars: true,
+      safe: true, 
+      defaults: true 
+    })
   ],
   resolve: {
     extensions: [

@@ -8,7 +8,6 @@ import { addBun, addIngredient } from '../../services/slices/constructorSlice';
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
     const location = useLocation();
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleAdd = () => {

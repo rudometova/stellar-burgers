@@ -1,7 +1,7 @@
 import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ResetPasswordUI } from '@ui-pages';
-import { useSelector, useDispatch } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import { resetPassword } from '../../services/slices/userSlice';
 
 export const ResetPassword: FC = () => {
@@ -25,9 +25,6 @@ export const ResetPassword: FC = () => {
       .unwrap()
       .then(() => {
         navigate('/login');
-      })
-      .catch((error) => {
-        console.error('Ошибка сброса пароля:', error);
       });
   };
 

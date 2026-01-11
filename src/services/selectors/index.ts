@@ -52,7 +52,7 @@ export const getIngredientCounts = createSelector(
   (bun, constructorIngredients) => {
     const counts: { [key: string]: number } = {};
 
-    // Считаем булку (если есть)
+    // Считаем булки
     if (bun) {
       counts[bun._id] = 2; // Булки всегда 2 (верхняя и нижняя)
     }

@@ -28,7 +28,7 @@ export const initialState: TUserState = {
 // Проверка пользователя
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',
-  async (_, { dispatch }) => {
+  async () => {
     if (getCookie('accessToken')) {
       try {
         const response = await getUserApi();
@@ -49,7 +49,6 @@ export const loginUser = createAsyncThunk(
   'user/login',
   async (data: { email: string; password: string }) => {
     const response = await loginUserApi(data);
-    // Сохраняем БЕЗ 'Bearer ' (так как мы сами добавляем Bearer при использовании)
     const accessToken = response.accessToken.startsWith('Bearer ')
       ? response.accessToken.split('Bearer ')[1]
       : response.accessToken;
@@ -64,7 +63,6 @@ export const registerUser = createAsyncThunk(
   'user/register',
   async (data: { email: string; password: string; name: string }) => {
     const response = await registerUserApi(data);
-    // Сохраняем БЕЗ 'Bearer ' (так как мы сами добавляем Bearer при использовании)
     const accessToken = response.accessToken.startsWith('Bearer ')
       ? response.accessToken.split('Bearer ')[1]
       : response.accessToken;
@@ -73,13 +71,12 @@ export const registerUser = createAsyncThunk(
     return response.user;
   }
 );
+
 // Выход
 export const logoutUser = createAsyncThunk('user/logout', async () => {
   try {
     await logoutApi();
   } catch (error) {
-    console.error('Logout API error:', error);
-    // Даже если API ошибся, все равно очищаем локальные данные
   } finally {
     deleteCookie('accessToken');
     localStorage.removeItem('refreshToken');
@@ -180,7 +177,6 @@ const userSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || 'Ошибка выхода';
-        // Все равно очищаем пользователя даже при ошибке
         state.user = null;
       })
 

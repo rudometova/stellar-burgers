@@ -15,19 +15,16 @@ const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
-    addBun: (state, action: PayloadAction<TIngredient>) =>
-      // Возвращаем новый объект состояния вместо мутации
-      ({
-        ...state,
-        bun: action.payload
-      }),
+    addBun: (state, action: PayloadAction<TIngredient>) => ({
+      ...state,
+      bun: action.payload
+    }),
     addIngredient: (state, action: PayloadAction<TIngredient>) => {
       const newIngredient: TConstructorIngredient = {
         ...action.payload,
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
+        id: Date.now().toString() + Math.random().toString(36).substring(2, 9)
       };
 
-      // Добавляем защиту от undefined
       const currentIngredients = state.ingredients || [];
 
       return {
