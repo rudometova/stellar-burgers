@@ -32,7 +32,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Загружаем ингредиенты и проверяем авторизацию
+    // Загружаем ингредиенты и проверяем авторизацию при загрузке приложения
     dispatch(fetchIngredients());
     dispatch(checkUserAuth());
   }, [dispatch]);
@@ -121,7 +121,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='Детали заказа' onClose={handleModalClose}>
+              <Modal title='' onClose={handleModalClose}>
                 <OrderInfo />
               </Modal>
             }
@@ -137,7 +137,7 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='Детали заказа' onClose={handleModalClose}>
+              <Modal title='' onClose={handleModalClose}>
                 <OrderInfo />
               </Modal>
             }

@@ -14,12 +14,24 @@ export const initialState: TOrderState = {
   orderError: null
 };
 
-// Thunk для оформления заказа
+// Thunk для оформления заказа с очисткой конструктора
 export const createOrder = createAsyncThunk(
   'order/createOrder',
-  async (ingredientIds: string[]) => {
-    const response = await orderBurgerApi(ingredientIds);
-    return response.order;
+  async (ingredientIds: string[], { dispatch, rejectWithValue }) => {
+    try {
+      const response = await orderBurgerApi(ingredientIds);
+
+      // Импортируем action очистки конструктора
+      // Если import вызывает циклическую зависимость, используем динамический импорт
+      const { clearConstructor } = await import('./constructorSlice');
+
+      // Очищаем конструктор после успешного создания заказа
+      dispatch(clearConstructor());
+
+      return response.order;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Ошибка при оформлении заказа');
+    }
   }
 );
 
@@ -45,7 +57,7 @@ const orderSlice = createSlice({
       .addCase(createOrder.rejected, (state, action) => {
         state.orderRequest = false;
         state.orderError =
-          action.error.message || 'Ошибка при оформлении заказа';
+          (action.payload as string) || 'Ошибка при оформлении заказа';
       });
   }
 });

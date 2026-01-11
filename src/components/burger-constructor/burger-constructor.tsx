@@ -11,7 +11,6 @@ import {
   getUser
 } from '../../services/selectors';
 import { createOrder, clearOrder } from '../../services/slices/orderSlice';
-import { clearConstructor } from '../../services/slices/constructorSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -58,9 +57,6 @@ export const BurgerConstructor: FC = () => {
 
   const closeOrderModal = () => {
     dispatch(clearOrder());
-    if (order) {
-      dispatch(clearConstructor());
-    }
   };
 
   return (

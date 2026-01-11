@@ -4,6 +4,7 @@ import { useDispatch } from '../../services/store';
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
 import { addBun, addIngredient } from '../../services/slices/constructorSlice';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
@@ -14,7 +15,13 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
       if (ingredient.type === 'bun') {
         dispatch(addBun(ingredient));
       } else {
-        dispatch(addIngredient(ingredient));
+        // Генерируем уникальный ID для ингредиента перед отправкой
+        const ingredientWithId: TConstructorIngredient = {
+          ...ingredient,
+          id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+        };
+
+        dispatch(addIngredient(ingredientWithId));
       }
     };
 

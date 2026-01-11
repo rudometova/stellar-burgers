@@ -15,23 +15,21 @@ const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
+    // Используем PayloadAction<TIngredient> для добавления булки
     addBun: (state, action: PayloadAction<TIngredient>) => ({
       ...state,
       bun: action.payload
     }),
-    addIngredient: (state, action: PayloadAction<TIngredient>) => {
-      const newIngredient: TConstructorIngredient = {
-        ...action.payload,
-        id: Date.now().toString() + Math.random().toString(36).substring(2, 9)
-      };
 
+    // Используем PayloadAction<TConstructorIngredient> - ID должен быть сгенерирован заранее
+    addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
       const currentIngredients = state.ingredients || [];
-
       return {
         ...state,
-        ingredients: [...currentIngredients, newIngredient]
+        ingredients: [...currentIngredients, action.payload]
       };
     },
+
     removeIngredient: (state, action: PayloadAction<string>) => {
       const currentIngredients = state.ingredients || [];
       return {
@@ -41,6 +39,7 @@ const constructorSlice = createSlice({
         )
       };
     },
+
     moveIngredient: (
       state,
       action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
@@ -58,6 +57,7 @@ const constructorSlice = createSlice({
         ingredients: newIngredients
       };
     },
+
     clearConstructor: () => initialState
   }
 });

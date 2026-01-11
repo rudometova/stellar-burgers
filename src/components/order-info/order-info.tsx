@@ -18,6 +18,7 @@ export const OrderInfo: FC = () => {
   useEffect(() => {
     if (number) {
       setIsLoading(true);
+      setError(null);
       getOrderByNumberApi(parseInt(number))
         .then((response) => {
           if (response.success && response.orders.length > 0) {
