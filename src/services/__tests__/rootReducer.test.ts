@@ -1,33 +1,29 @@
+import { rootReducer } from '../rootReducer';
+
 describe('rootReducer', () => {
-  it('should initialize with correct structure', () => {
-    // Мокаем структуру как в реальном приложении
-    const mockState = {
-      ingredients: {
-        ingredients: [],
-        isLoading: false,
-        error: null
-      },
-      constructor: {
-        bun: null,
-        ingredients: []
-      },
-      order: {
-        order: null,
-        orderRequest: false,
-        orderError: null
-      },
-      user: {
-        user: null,
-        isAuthChecked: false,
-        isLoading: false,
-        error: null
-      }
-    };
+  // Основной тест: обработка неизвестного экшена
+  it('should handle unknown action and return state', () => {
+    // 1. Вызываем с undefined и неизвестным экшеном
+    const state = rootReducer(undefined, { type: 'UNKNOWN_ACTION' });
     
-    expect(typeof mockState).toBe('object');
-    expect(mockState).toHaveProperty('ingredients');
-    expect(mockState).toHaveProperty('constructor');
-    expect(mockState.constructor.bun).toBeNull();
-    expect(mockState.constructor.ingredients).toEqual([]);
+    // 2. Проверяем что что-то возвращено
+    expect(state).toBeDefined();
+    
+    // 3. Проверяем что это объект
+    expect(typeof state).toBe('object');
+    
+    // 4. Проверяем ключевые слайсы 
+    expect(state).toHaveProperty('ingredients');
+    expect(state).toHaveProperty('order');
+    expect(state).toHaveProperty('user');
+    expect(state).toHaveProperty('feed');
+    expect(state).toHaveProperty('profileOrders');
+    
+    // 5. Проверяем начальное состояние ingredients
+    expect(state.ingredients).toEqual({
+      ingredients: [],
+      isLoading: false,
+      error: null
+    });
   });
 });
