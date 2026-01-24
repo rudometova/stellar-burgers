@@ -45,7 +45,7 @@ describe('ingredients slice', () => {
     it('should handle fetchIngredients.pending - isLoading becomes true', () => {
       const action = { type: fetchIngredients.pending.type };
       const state = ingredientsReducer(initialState, action);
-      
+
       expect(state).toEqual({
         ingredients: [],
         isLoading: true,
@@ -60,7 +60,7 @@ describe('ingredients slice', () => {
         payload: mockIngredients
       };
       const state = ingredientsReducer(initialState, action);
-      
+
       expect(state).toEqual({
         ingredients: mockIngredients,
         isLoading: false,
@@ -77,7 +77,7 @@ describe('ingredients slice', () => {
         error: { message: errorMessage }
       };
       const state = ingredientsReducer(initialState, action);
-      
+
       expect(state).toEqual({
         ingredients: [],
         isLoading: false,

@@ -23,7 +23,7 @@ describe('order slice', () => {
     it('should handle createOrder.pending', () => {
       const action = { type: createOrder.pending.type };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         order: null,
         orderRequest: true,
@@ -37,7 +37,7 @@ describe('order slice', () => {
         payload: mockOrder
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         order: mockOrder,
         orderRequest: false,
@@ -52,7 +52,7 @@ describe('order slice', () => {
         payload: errorMessage
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         order: null,
         orderRequest: false,
@@ -67,7 +67,7 @@ describe('order slice', () => {
         error: { message: errorMessage }
       };
       const state = reducer(initialState, action);
-      
+
       // Проверяем, что ошибка записана (может быть либо переданная, либо дефолтная)
       expect(state).toEqual({
         order: null,
@@ -85,10 +85,10 @@ describe('order slice', () => {
         orderRequest: false,
         orderError: 'Some error'
       };
-      
+
       const action = clearOrder();
       const state = reducer(stateWithOrder, action);
-      
+
       expect(state).toEqual({
         order: null,
         orderRequest: false,

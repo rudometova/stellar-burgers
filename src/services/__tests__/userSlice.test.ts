@@ -21,7 +21,7 @@ describe('user slice', () => {
     it('should handle loginUser.pending', () => {
       const action = { type: loginUser.pending.type };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: false,
@@ -36,7 +36,7 @@ describe('user slice', () => {
         payload: mockUser
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: mockUser,
         isAuthChecked: false,
@@ -52,7 +52,7 @@ describe('user slice', () => {
         error: { message: errorMessage }
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: false,
@@ -66,7 +66,7 @@ describe('user slice', () => {
     it('should handle registerUser.pending', () => {
       const action = { type: registerUser.pending.type };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: false,
@@ -81,7 +81,7 @@ describe('user slice', () => {
         payload: mockUser
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: mockUser,
         isAuthChecked: false,
@@ -97,7 +97,7 @@ describe('user slice', () => {
         error: { message: errorMessage }
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: false,
@@ -115,10 +115,10 @@ describe('user slice', () => {
         isLoading: false,
         error: null
       };
-      
+
       const action = { type: logoutUser.pending.type };
       const state = reducer(stateWithUser, action);
-      
+
       expect(state).toEqual({
         user: mockUser,
         isAuthChecked: true,
@@ -134,10 +134,10 @@ describe('user slice', () => {
         isLoading: true,
         error: null
       };
-      
+
       const action = { type: logoutUser.fulfilled.type };
       const state = reducer(stateWithUser, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: true,
@@ -153,14 +153,14 @@ describe('user slice', () => {
         isLoading: true,
         error: null
       };
-      
+
       const errorMessage = 'Ошибка выхода';
       const action = {
         type: logoutUser.rejected.type,
         error: { message: errorMessage }
       };
       const state = reducer(stateWithUser, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: true,
@@ -174,7 +174,7 @@ describe('user slice', () => {
     it('should handle checkUserAuth.pending', () => {
       const action = { type: checkUserAuth.pending.type };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: false,
@@ -189,7 +189,7 @@ describe('user slice', () => {
         payload: mockUser
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: mockUser,
         isAuthChecked: true,
@@ -204,7 +204,7 @@ describe('user slice', () => {
         payload: null
       };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: true,
@@ -216,7 +216,7 @@ describe('user slice', () => {
     it('should handle checkUserAuth.rejected', () => {
       const action = { type: checkUserAuth.rejected.type };
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: true,
@@ -230,7 +230,7 @@ describe('user slice', () => {
     it('should set auth checked state', () => {
       const action = setAuthChecked(true);
       const state = reducer(initialState, action);
-      
+
       expect(state).toEqual({
         user: null,
         isAuthChecked: true,
