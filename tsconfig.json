@@ -28,5 +28,5 @@
       "@selectors": ["src/services/selectors"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "jest.config.js", "cypress.config.ts", "jest.setup.js"]
 }
